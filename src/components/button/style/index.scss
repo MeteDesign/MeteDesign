@@ -1,0 +1,70 @@
+// author:储奎
+// date: 2017.01.17
+@import './mixin';
+@import '../../style/themes/theme.scss';
+$prefix:md-btn;
+
+.#{$prefix}{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 500;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.5;
+    padding: 4px 15px;
+    font-size: 12px;
+    border-radius: 4px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    // -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    // transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    color: $textColor;
+    background-color: #f7f7f7;
+    border-color: #d9d9d9;
+    &-lg{
+        padding: 4px 15px 5px 15px;
+        font-size: 14px;
+        border-radius: 4px;
+    }
+     &-sm{
+        padding: 1px 7px;
+        font-size: 12px;
+        border-radius: 2px;
+    }
+    &-primary{
+        color: #fff;
+        background-color: getColor('color500');
+        border-color: getColor('color500');
+        &:hover{
+            background-color: getColor('color300');
+            border-color: getColor('color300');
+        }
+    }
+     &-link{
+        color: getColor('color500');
+        background-color: transparent;
+        border-color: transparent;
+        &:hover{
+            color: getColor('color300');
+        }
+    }
+    &-loading{
+        pointer-events: none;
+    }
+    &-circle{
+        width: 28px;
+        height: 28px;
+        padding: 0;
+        font-size: 14px;
+        border-radius: 50%;
+    }
+}
+

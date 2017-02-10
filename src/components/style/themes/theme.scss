@@ -1,0 +1,41 @@
+//author:储奎 
+//date:2017.01.17
+// 主题样式表文件
+@import './default.scss';
+
+// 颜色样式表文件
+@import '../color/color.scss';
+
+// 主题名称，默认为default,可自定义修改
+$theme:'default';
+
+
+// 默认主题变量 --开始--
+$default-color500:#{$blue500};
+$default-color300:#{$blue300};
+
+
+
+// 默认主题变量 --结束--
+
+// 绿色主题变量 --开始--
+$green-colorA400:#{$greenA400};
+
+// 绿色主题变量 --结束--
+
+@function getColor($color){
+    @if $theme == 'default'{
+        @if $color == 'color300'{
+            @return $default-color300;
+        }
+        @else if $color == 'color500'{
+            @return $default-color500;
+        }
+        
+    }
+    @else {
+        @return $green-colorA400
+    }
+}
+
+
