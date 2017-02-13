@@ -7,6 +7,7 @@
 ## 组件记录
 
 - 2017/01/18 创建Icon组件
+- 2017/02/13 更新README.md文件，增加`可用Icon列表`
 
 ## 组件API说明
 
@@ -23,3 +24,6 @@
 {/*旋转loading*/}
 <Icon type='loading' spin />
 ```
+## 可用Icon列表
+
+![Icon](./icon_example.png)
