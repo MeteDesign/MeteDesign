@@ -1,52 +1,79 @@
-# 模态框Modal
+# 模态框组件说明 Modal
 
-## 模态框类型 type
+## 作者
 
-1. 基本模态框 Modal
+储奎
 
-   > 提供基本浮动层，用来提供用户处理事务
+## 组件记录
 
-   由ModalFrame提供框架，基本模态框内容放在props.children中。
+- 2017/02/06 创建Modal组件
+- 2017/02/08 第一次提交
+- 2017/02/13 添加ModalFrame组件默认footer
 
-2. 对话框 Dialog
+## 组件API说明
 
-   由ModalFrame提供框架，对话内容由各子组件提供暴露点（title、conten...）等，各类型的对话框最终由属性type决定。
+### 基础模态框 ModalFrame
 
-   1. 确认框 confirm
+| 属性       | 说明                            | 类型            | 默认值   |
+| -------- | ----------------------------- | ------------- | ----- |
+| title    | 标题                            | string        | -     |
+| visible  | 是否隐藏模态框                       | bool          | false |
+| closable | 是否含有右上角关闭按钮,若有则需要onCancel处理函数 | bool          | false |
+| footer   | 模态框底部按钮区域                     | React.Element | null  |
+| onOk     | 确定事件处理函数                      | function      | -     |
+| onCancel | 关闭/取消事件处理函数                   | function      | -     |
 
-      > 提示用户进行确认操作，可进行取消 / 确定操作。
+### 对话框 Dialog
 
-   2. 弹出提示框 alert
+由基础模态框ModalFrame包裹，ModalFrame基础属性基本支持。
 
-      弹出式模态框应该只有确定按钮，用户只有唯一操作。
+| 属性       | 说明                                       | 类型       | 默认值  |
+| -------- | ---------------------------------------- | -------- | ---- |
+| type     | 类型，可选值有`confirm`,`success`,`info`,`warning`,`error` | string   | info |
+| title    | 对话标题                                     | string   | -    |
+| content  | 对话内容                                     | string   | -    |
+| onOk     | 确定处理函数                                   | function | -    |
+| onCancel | 取消处理函数,只有`type`为`confirm`才可用             | function | -    |
 
-      1. 成功 success
+**注意**
 
-         > 成功提示信息
+基础模态框
 
-      2. 警告 warning
+- 采用`css` `display:none`隐藏
 
-         > 警告提示信息
+对话框
 
-      3. 错误 error
+- 采用销毁`DOM`来隐藏
+- 只有`type`为`confirm`才有双按钮，即确定和取消按钮，其他一律只有一个确定按钮
+- 两者调用方式不同，建议采用示例代码风格来调用
 
-         > 错误提示信息
+都支持异步处理。
 
-      4. 信息提示 info
+## 示例
 
-         > 普通提示信息
+基础模态框：
 
+``` react
+<ModalFrame title='this is md-modal' visible={this.state.showModal} closable onCancel={() => { this.setState({ showModal: false }) }}>
+          <p>this is p tag</p>
+        </ModalFrame>
+```
 
-## 模态框基本组件 ModalFrame
+对话框：
 
-应该提供模态框基本框架，基础要素有
+``` react
+<Button onClick={() => {
+          Dialog({
+            onOk: () => {
+              return new Promise((resolve, reject) => {
+                setTimeout(Math.random() > 0.5 ? resolve : reject, 1000)
+              }).catch(() => console.log('Oops errors!'))
+            },
+            type: 'error',
+            title: 'error',
+            content: 'this is error content'})
+        }}>
+          异步
+          </Button>
+```
 
-1. 关闭功能（销毁、隐藏）close
-
-2. 确定按钮 ok
-
-3. 取消按钮 cancel
-
-4. 内容体 content
-
-5. 标题 title

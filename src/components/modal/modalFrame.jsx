@@ -1,15 +1,19 @@
 import React from 'react'
 import classNames from 'classnames'
 import Button from '../button'
+import ModalButton from './modalButton'
 import Icon from '../icon'
 import './style'
 const prefixCls = 'md-modal'
-const ModalFrame = (props, className) => {
-  const modalCls = classNames(`${prefixCls}`, { 'md-modal-hidden': !props.visiable })
+const ModalFrame = (props) => {
+  const modalCls = classNames(`${prefixCls}`, { 'md-modal-hidden': !props.visible }, props.className)
   //  ModalFrame Closer Button Fun
   //  @props.onClose <function> 模态框右上角关闭按钮处理函数
-  const close = (e) => {
-    if (props.onClose) props.onClose(e)
+  const cancel = (e) => {
+    if (props.onCancel) props.onCancel(e)
+  }
+  const ok = (e) => {
+    if (props.onOk) props.onOk(e)
   }
   //  ModalFrame Header Area
   //  @props.title <string> 标题
@@ -32,6 +36,13 @@ const ModalFrame = (props, className) => {
         {props.footer}
       </div>
     )
+  } else {
+    footer = (
+      <div className={`${prefixCls}-dialog-footer`}>
+        <ModalButton type='default' click={cancel} text='取消' closeModal={cancel} />
+        <ModalButton type='primary' click={ok} text='确定' closeModal={cancel} />
+      </div>
+    )
   }
   //  ModalFrame Closer Button
   //  @close <function> 模态框右上角关闭按钮
@@ -39,11 +50,11 @@ const ModalFrame = (props, className) => {
   if (props.closable) {
     closer = (
       <Button
-        onClick={close}
+        onClick={cancel}
         size='small'
         type='link'
         className={`${prefixCls}-closer`}
-      >
+        >
         <Icon type='close' />
       </Button>)
   }
@@ -57,7 +68,6 @@ const ModalFrame = (props, className) => {
           <div className={`${prefixCls}-body`}>
             {props.children}
           </div>
-
           {footer}
         </div>
       </div>

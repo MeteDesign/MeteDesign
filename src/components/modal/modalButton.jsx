@@ -4,12 +4,12 @@ import Button from '../button'
 export default class ModalButton extends React.Component {
   constructor (props) {
     super(props)
-    this.onClickHandler = this.onClickHandler.bind(this)
+    this.handleClick = this.handleClick.bind(this)
     this.state = {
       loading: false
     }
   }
-  onClickHandler () {
+  handleClick () {
     let func = this.props.click
     let close = this.props.closeModal
     if (func) {
@@ -29,8 +29,8 @@ export default class ModalButton extends React.Component {
   }
   render () {
     return (
-      <Button type={this.props.type} size={this.props.size} onClick={this.onClickHandler} loading={this.state.loading}>
-        {this.props.text || '确定11'}
+      <Button type={this.props.type} size={this.props.size} onClick={this.handleClick} loading={this.state.loading}>
+        {this.props.text || '确定'}
       </Button>
     )
   }

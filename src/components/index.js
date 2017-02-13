@@ -3,8 +3,8 @@ import { render } from 'react-dom'
 
 import Button from './button'
 import Icon from './icon'
-import ModalFrame from './modal/modalFrame'
-import Dialog from './modal/dialog'
+import {ModalFrame, Dialog} from './modal/'
+
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -35,10 +35,10 @@ class App extends React.Component {
         <Icon type='stepbackward' />
         <Icon type='loading' spin />
         <h2>MODAL</h2>
-        <Button type='primary' size='small' onClick={() => { this.setState({ showModal: true }) }}>
+        <Button type='primary' onClick={() => { this.setState({ showModal: true }) }}>
           普通modal
         </Button>
-        <ModalFrame title='this is md-modal' visiable={this.state.showModal} closable onClose={() => { this.setState({ showModal: false }) }}>
+        <ModalFrame title='this is md-modal' visible={this.state.showModal} closable onCancel={() => { this.setState({ showModal: false }) }}>
           <p>this is p tag</p>
         </ModalFrame>
         <Button onClick={() => { Dialog({type: 'confirm', title: 'confirm', content: 'this is confirm content'}) }}>

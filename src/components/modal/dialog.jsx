@@ -60,9 +60,8 @@ const Dialog = (...props) => {
   }
   //  将组件渲染到body中
   ReactDOM.render(
-    <ModalFrame visiable style={{ width: props.width || '400px' }}>
+    <ModalFrame visible style={{ width: props.width || '400px' }} footer={footer}>
       {body}
-      {footer}
     </ModalFrame>,
     div)
 }
