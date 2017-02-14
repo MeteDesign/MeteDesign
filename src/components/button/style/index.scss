@@ -1,0 +1,72 @@
+// author:储奎
+// date: 2017.01.17
+@import "../../style/themes/default";
+@import "../../style/mixins/index";
+@import "./mixin";
+
+$prefix:md-btn;
+
+.#{$prefix}{
+    display: inline-block;
+    margin-bottom: 0;
+    font-weight: 500;
+    text-align: center;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    background-image: none;
+    border: 1px solid transparent;
+    white-space: nowrap;
+    line-height: 1.5;
+    padding: $btn-padding-base;
+    font-size: $font-size-base;
+    border-radius: $border-radius-base;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    // -webkit-transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    // transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1);
+    position: relative;
+    color: $text-color;
+    background-color: #f7f7f7;
+    border-color: #d9d9d9;
+    &-lg{
+        padding: $btn-padding-lg;
+        font-size: $font-size-base;
+        border-radius: $border-radius-base;
+    }
+     &-sm{
+        padding: $btn-padding-sm;
+        font-size: $font-size-base - 2px;
+        border-radius: $border-radius-base - 2px;
+    }
+    &-primary{
+        color: #fff;
+        background-color: $btn-primary-bg;
+        border-color: $btn-primary-bg;
+        &:hover{
+            background-color: $btn-primary-hover;
+            border-color: $btn-primary-hover;
+        }
+    }
+     &-link{
+        color: $btn-primary-bg;
+        background-color: transparent;
+        border-color: transparent;
+        &:hover{
+            color: $btn-primary-hover;
+        }
+    }
+    &-loading{
+        pointer-events: none;
+    }
+    &-circle{
+        width: $btn-circle-size;
+        height: $btn-circle-size;
+        padding: 0;
+        font-size: 14px;
+        border-radius: 50%;
+    }
+}
+
