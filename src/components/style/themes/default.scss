@@ -3,24 +3,30 @@
 // Prefix
 $md-prefix             : md;
 
+$theme-color-1         :$blue50 $blue100 $blue200 $blue300 $blue400 $blue500 $blue600 $blue700 $blue800 $blue900;
+$theme-color-2         :$green50 $green100 $green200 $green300 $green400 $green500 $green600 $green700 $green800 $green900;
+$theme-color-3         :$purple50 $purple100 $purple200 $purple300 $purple400 $purple500 $purple600 $purple700 $purple800 $purple900;
+
+$theme-color           :$theme-color-3;
+
 // Color
-$primary-color          : $blue500;
+$primary-color          : nth($theme-color,6);
 $success-color          : $green500;
 $error-color            : $red500;
 $highlight-color        : $red500;
 $warning-color          : $yellow500;
 $normal-color           : #d9d9d9;
 
-$primary-1: $blue50;  
-$primary-2: $blue100;  
-$primary-3: $blue200;
-$primary-4: $blue300;
-$primary-5: $blue400;  
-$primary-6: $blue500;                                
-$primary-7: $blue600;
-$primary-8: $blue700;
-$primary-9: $blue800;
-$primary-10: $blue900;
+$primary-1: nth($theme-color,1);  
+$primary-2: nth($theme-color,2);  
+$primary-3: nth($theme-color,3);
+$primary-4: nth($theme-color,4);
+$primary-5: nth($theme-color,5);  
+$primary-6: nth($theme-color,6);                                
+$primary-7: nth($theme-color,7);
+$primary-8: nth($theme-color,8);
+$primary-9: nth($theme-color,9);
+$primary-10: nth($theme-color,10);
 
 // ------ Base & Require ------
 $body-background        : #fff;
