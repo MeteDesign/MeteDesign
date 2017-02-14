@@ -157,6 +157,27 @@ for (key in obj) {
    下面提供一个`README.md`的示例
 
    ![README](./redame_example.png)
+## 开发工具推荐
+
+- 代码编辑器
+
+  - [Visual Studio Code](https://code.visualstudio.com/) 
+  - [Sublime Text 3](https://www.sublimetext.com/3)
+
+- MarkDown 编辑器
+
+  - [Typora](https://typora.io/)
+
+- 梯子
+
+  - [ShadowSocksR](https://github.com/shadowsocksr/shadowsocksr)
+
+- 版本控制器
+
+  - [Source Tree](https://www.sourcetreeapp.com/)
+
+  - [TortoiseGit](https://tortoisegit.org/)
+
 
 ## 参考资料
 
