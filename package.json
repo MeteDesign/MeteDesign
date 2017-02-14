@@ -37,6 +37,7 @@
   "dependencies": {
     "classnames": "^2.2.5",
     "leaflet": "^1.0.2",
+    "lodash": "^4.17.4",
     "rc-dialog": "^6.5.6",
     "react": "^15.3.1",
     "react-dom": "^15.3.1",
