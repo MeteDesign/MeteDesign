@@ -4,7 +4,7 @@ import { render } from 'react-dom'
 import Button from './button'
 import Icon from './icon'
 import {ModalFrame, Dialog} from './modal/'
-
+import Input from './input'
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -69,6 +69,13 @@ class App extends React.Component {
         }}>
           异步
           </Button>
+        <h2>Input</h2>
+        <Input value='Input组件' prefixIcon={<Icon type='user' />} prefixLabel={'http://ssssssss试试'} />
+        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} prefixLabel={'Label前'} suffixLabel={'Label后'} />
+        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} suffixLabel={'Label后'} />
+        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircle' />} />
+        <Input value='Input组件' />
+
       </div>)
   }
 }
