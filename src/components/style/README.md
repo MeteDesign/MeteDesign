@@ -10,7 +10,7 @@
 
 ## mixins文件夹：
 
-- clearfix文件，定义的消除文件代码块
+- clearfix文件，定义的消除浮动代码块
 - compatibility文件，解决浏览器兼容性问题，后面补充
 - motion文件，定义动画代码块，后面补充
 - size文件，定义size代码块
