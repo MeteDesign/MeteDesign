@@ -72,10 +72,9 @@ export default class Input extends React.Component {
       delete otherProps.value
       otherProps.defaultValue = _value
     }
-    let hasIcon = props.prefixIcon || props.suffixIcon
     const className = classNames(props.prefixCls,
       {
-        [`${props.prefixCls}-hasIcon`]: hasIcon,
+        [`${props.prefixCls}-hasIcon`]: props.prefixIcon || props.suffixIcon,
         [`${props.prefixCls}-hasPreLabel`]: props.prefixLabel,
         [`${props.prefixCls}-hasSufLabel`]: props.suffixLabel
       }, props.className)

@@ -7,7 +7,7 @@ $theme-color-1         :$blue50 $blue100 $blue200 $blue300 $blue400 $blue500 $bl
 $theme-color-2         :$green50 $green100 $green200 $green300 $green400 $green500 $green600 $green700 $green800 $green900;
 $theme-color-3         :$purple50 $purple100 $purple200 $purple300 $purple400 $purple500 $purple600 $purple700 $purple800 $purple900;
 
-$theme-color           :$theme-color-3;
+$theme-color           :$theme-color-1;
 
 // Color
 $primary-color          : nth($theme-color,6);

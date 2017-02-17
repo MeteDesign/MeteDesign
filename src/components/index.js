@@ -3,8 +3,9 @@ import { render } from 'react-dom'
 
 import Button from './button'
 import Icon from './icon'
-import {ModalFrame, Dialog} from './modal/'
+import { ModalFrame, Dialog } from './modal/'
 import Input from './input'
+import FormDemo from './form/__test/form_demo'
 class App extends React.Component {
   constructor (props) {
     super(props)
@@ -16,8 +17,8 @@ class App extends React.Component {
   render () {
     return (
       <div>
-        Mete Design
-              <hr />
+        <h1>Mete Design 单元测试页</h1>
+        <hr />
         <h2>BUTTON</h2>
         <Button type='link' size='large' onClick={() => { window.alert('btn') }}>
           LINK
@@ -41,19 +42,19 @@ class App extends React.Component {
         <ModalFrame title='this is md-modal' visible={this.state.showModal} closable onCancel={() => { this.setState({ showModal: false }) }}>
           <p>this is p tag</p>
         </ModalFrame>
-        <Button onClick={() => { Dialog({type: 'confirm', title: 'confirm', content: 'this is confirm content'}) }}>
+        <Button onClick={() => { Dialog({ type: 'confirm', title: 'confirm', content: 'this is confirm content' }) }}>
           Confirm
           </Button>
-        <Button onClick={() => { Dialog({type: 'info', title: 'info', content: 'this is info content'}) }}>
+        <Button onClick={() => { Dialog({ type: 'info', title: 'info', content: 'this is info content' }) }}>
           Info
           </Button>
-        <Button onClick={() => { Dialog({type: 'success', title: 'Success', content: 'this is Success content'}) }}>
+        <Button onClick={() => { Dialog({ type: 'success', title: 'Success', content: 'this is Success content' }) }}>
           Success
           </Button>
-        <Button onClick={() => { Dialog({type: 'warning', title: 'warning', content: 'this is warning content'}) }}>
+        <Button onClick={() => { Dialog({ type: 'warning', title: 'warning', content: 'this is warning content' }) }}>
           Warning
           </Button>
-        <Button onClick={() => { Dialog({type: 'error', title: 'error', content: 'this is error content'}) }}>
+        <Button onClick={() => { Dialog({ type: 'error', title: 'error', content: 'this is error content' }) }}>
           Error
           </Button>
         <Button onClick={() => {
@@ -65,18 +66,23 @@ class App extends React.Component {
             },
             type: 'error',
             title: 'error',
-            content: 'this is error content'})
+            content: 'this is error content'
+          })
         }}>
           异步
           </Button>
         <h2>Input</h2>
-        <Input value='Input组件' prefixIcon={<Icon type='user' />} prefixLabel={'http://ssssssss试试'} />
-        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} prefixLabel={'Label前'} suffixLabel={'Label后'} />
-        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} suffixLabel={'Label后'} />
-        <Input value='Input组件' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircle' />} />
-        <Input value='Input组件' />
-
-      </div>)
+        <div style={{ width: '300px' }}>
+          <Input placeholder='请输入用户名' prefixIcon={<Icon type='user' />} prefixLabel={'用户名'} />
+          <Input placeholder='请输入用户名' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} prefixLabel={'用户名'} suffixLabel={'*'} />
+          <Input placeholder='请输入用户名' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircleo' />} suffixLabel={'*'} />
+          <Input placeholder='请输入用户名' prefixIcon={<Icon type='user' />} suffixIcon={<Icon type='closecircle' />} />
+          <Input placeholder='请输入用户名' />
+        </div>
+        <h2>Form</h2>
+        <FormDemo />
+      </div>
+    )
   }
 }
 
