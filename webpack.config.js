@@ -6,19 +6,20 @@ var HtmlWebpackPlugin = require('html-webpack-plugin') // HTML文件处理
 // var OpenBrowserPlugin = require('open-browser-webpack-plugin')
 // var CleanPlugin = require('clean-webpack-plugin')
 var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin // 单独打包公共模块插件
+var LodashModuleReplacementPlugin = require('lodash-webpack-plugin') // 按需加载lodash
 // var getEntry = function() {
-// 	var entry = {}
-// 	//读取开发目录,并进行路径裁剪
-// 	glob.sync('./src/**/*.js')
-// 		.forEach(function(name) {
-// 			var start = name.indexOf('src/') + 4,
-// 				end = name.length - 3
-// 			var n = name.slice(start, end)
-// 			n = n.slice(0, n.lastIndexOf('/'))
-// 			//保存各个组件的入口
-// 			entry[n] = name
-// 		})
-// 	return entry
+//  var entry = {}
+//  //读取开发目录,并进行路径裁剪
+//  glob.sync('./src/**/*.js')
+//    .forEach(function(name) {
+//      var start = name.indexOf('src/') + 4,
+//        end = name.length - 3
+//      var n = name.slice(start, end)
+//      n = n.slice(0, n.lastIndexOf('/'))
+//      //保存各个组件的入口
+//      entry[n] = name
+//    })
+//  return entry
 // }
 var prod = process.env.NODE_ENV === 'production' ? true : false
 var out_path = prod ? './dist' : './build'
@@ -75,36 +76,40 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin('css/[name].css', {
       allChunks: true
+    }),
+    new LodashModuleReplacementPlugin({
+      'collections': true,
+      'paths': true
     })
   // new webpack.NoErrorsPlugin(),
   // new OpenBrowserPlugin({
-  // 	url: 'http://localhost:8080'
+  //  url: 'http://localhost:8080'
   // }),
   /* 公共库 */
   // new CommonsChunkPlugin({
-  // 	name: 'vendors',
-  // 	minChunks: Infinity
+  //  name: 'vendors',
+  //  minChunks: Infinity
   // }),
   ]
 }
 // 判断开发环境还是生产环境,添加uglify等插件
 // if (process.env.NODE_ENV === 'production') {
-// 	module.exports.plugins = (module.exports.plugins || [])
-// 		.concat([
-// 			new webpack.DefinePlugin({
-// 				'process.env': {
-// 					NODE_ENV: JSON.stringify('production')
-// 				}
-// 			}),
-// 			new webpack.optimize.UglifyJsPlugin({
-// 				compress: {
-// 					warnings: false
-// 				}
-// 			}),
-// 			new webpack.optimize.OccurenceOrderPlugin(),
-// 		])
+//  module.exports.plugins = (module.exports.plugins || [])
+//    .concat([
+//      new webpack.DefinePlugin({
+//        'process.env': {
+//          NODE_ENV: JSON.stringify('production')
+//        }
+//      }),
+//      new webpack.optimize.UglifyJsPlugin({
+//        compress: {
+//          warnings: false
+//        }
+//      }),
+//      new webpack.optimize.OccurenceOrderPlugin(),
+//    ])
 // } else {
-// 	module.exports.devtool = 'source-map'
+//  module.exports.devtool = 'source-map'
 module.exports.devServer = {
   port: 4000,
   contentBase: './build',
