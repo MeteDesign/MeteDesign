@@ -6,13 +6,25 @@ import Icon from './icon'
 import { ModalFrame, Dialog } from './modal/'
 import Input from './input'
 import FormDemo from './form/__test/form_demo'
+import Checkbox from './checkBox'
+import shallowEqual from './util/shallowequal'
+
 class App extends React.Component {
   constructor (props) {
     super(props)
+    let o1 = {a: '1', b: '2'}
+    let o2 = {a: '1', b: '2'}
+    console.log('对象浅对比')
+    console.log(shallowEqual(o1, o2))
+    console.log('对象深对比')
+    console.log(o1 === o2)
     this.state = {
       showModal: false,
       showConfirm: false
     }
+  }
+  onChange (e) {
+    console.log(`checked = ${e.target.checked}`)
   }
   render () {
     return (
@@ -81,6 +93,11 @@ class App extends React.Component {
         </div>
         <h2>Form</h2>
         <FormDemo />
+        <h2>Checkbox</h2>
+        <Checkbox onChange={this.onChange.bind(this)}>Checkbox</Checkbox>
+        <Checkbox defaultChecked={false} disabled>未选中不可用</Checkbox>
+        <br />
+        <Checkbox defaultChecked disabled>选中不可用</Checkbox>
       </div>
     )
   }
