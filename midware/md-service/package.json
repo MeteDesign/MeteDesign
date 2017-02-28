@@ -1,0 +1,21 @@
+{
+  "name": "md-service",
+  "version": "2.0.0",
+  "description": "md_service",
+  "main": "md-service.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "webpack-dev-server --progress --colors"
+  },
+  "author": "GoDotDotDot",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^0.15.3",
+    "es6-promise": "^4.0.5"
+  },
+  "devDependencies": {
+    "babel": "^6.23.0",
+    "webpack": "^2.2.1",
+    "webpack-dev-server": "^2.4.1"
+  }
+}

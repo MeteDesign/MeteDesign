@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src='./ajax.js'></script>
+    <style>
+        *{
+            padding: 0;margin: 0;
+        }
+        body{
+            padding:20px
+        }
+        p{
+            padding: 20px 0;
+        }
+        #ajax_rst{
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body>
+Ajax Demo Page
+<hr>
+<pre id="ajax_rst">Loading...</pre>
+<script>
+    // 使用方法
+    window.ajax({
+        url: 'http://192.168.19.192:8033/api/iserver/services/map-world/rest/maps/World/layers.rjson',
+        type: 'post',
+        success: function (data) {
+            document.getElementById('ajax_rst').innerHTML = '<p>Success Info:</p>'+data
+        },
+        error: function (data) {
+            document.getElementById('ajax_rst').innerHTML = '<p>Error Info:</p>'+data
+        }
+    })
+    //可使用参数如下，以下参数为源码
+    /*
+     url = options.url || '', // 请求的链接
+     type = (options.type || 'get').toLowerCase(), // 请求的方法,默认为get
+     data = options.data || null, // 请求的数据
+     contentType = options.contentType || '', // 请求头
+     dataType = options.dataType || '', // 请求的类型
+     async = options.async === undefined ? true : options.async, // 是否异步，默认为true.
+     timeOut = options.timeOut, // 超时时间。
+     before = options.before || function () {}, // 发送之前执行的函数
+     error = options.error || function () {}, // 错误执行的函数
+     success = options.success || function () {} // 请求成功的回调函数
+     timeout_bool = false, // 是否请求超时
+     timeout_flag = null, // 超时标识
+     xhr = null // xhr对角
+     */
+</script>
+</body>
+</html>
