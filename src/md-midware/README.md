@@ -1,5 +1,7 @@
 # METE DESIGN MIDWARE
 
+[TOC]
+
 ## md_service
 
 midware of service，we have the following service now:
@@ -25,14 +27,13 @@ md_ajax.get('./data.json')
   })
 ```
 
-## md_ajax
+### md_ajax
 
 Promise based HTTP client for the browser and node.js
 
-### Features
+#### Features
 
 - Support cache (sessionStorage and localStorage)
-
 - Make [XMLHttpRequests](https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest) from the browser
 - Make [http](http://nodejs.org/api/http.html) requests from node.js
 - Supports the [Promise](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise) API
@@ -42,18 +43,18 @@ Promise based HTTP client for the browser and node.js
 - Automatic transforms for JSON data
 - Client side support for protecting against [XSRF](http://en.wikipedia.org/wiki/Cross-site_request_forgery)
 
-### Dependencies
+#### Dependencies
 
 - `axios`
 - `es6-promise`
 
-### Browser Support
+#### Browser Support
 
 | ![Chrome](https://raw.github.com/alrra/browser-logos/master/src/chrome/chrome_48x48.png) | ![Firefox](https://raw.github.com/alrra/browser-logos/master/src/firefox/firefox_48x48.png) | ![Safari](https://raw.github.com/alrra/browser-logos/master/src/safari/safari_48x48.png) | ![Opera](https://raw.github.com/alrra/browser-logos/master/src/opera/opera_48x48.png) | ![Edge](https://raw.github.com/alrra/browser-logos/master/src/edge/edge_48x48.png) | ![IE](https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Internet_Explorer_10_logo.svg/48px-Internet_Explorer_10_logo.svg.png) |
 | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- | ---------------------------------------- |
 | Latest ✔                                 | Latest ✔                                 | Latest ✔                                 | Latest ✔                                 | Latest ✔                                 | 8+ ✔                                     |
 
-### Usage
+#### Usage
 
 Using with ES6:
 
@@ -72,9 +73,9 @@ md_ajax.get('./data.json')
 
 
 
-### API
+#### API
 
-#### get
+##### get
 
 call:
 
@@ -86,7 +87,7 @@ return:
 
 `Promise`
 
-#### post
+##### post
 
 call:
 
@@ -98,7 +99,7 @@ return:
 
 `Promise`
 
-#### delete
+##### delete
 
 call:
 
@@ -110,7 +111,7 @@ return:
 
 `Promise`
 
-#### head
+##### head
 
 call:
 
@@ -122,7 +123,7 @@ return:
 
 `Promise`
 
-#### put
+##### put
 
 call:
 
@@ -134,7 +135,7 @@ return:
 
 `Promise`
 
-#### patch
+##### patch
 
 call:
 
@@ -146,7 +147,7 @@ return:
 
 `Promise`
 
-#### setCommonHeader
+##### setCommonHeader
 
 call:
 
@@ -160,7 +161,7 @@ return:
 
 
 
-### Config
+#### Config
 
 These are the available config options for making requests. Only the `url` is required. 
 
@@ -311,7 +312,7 @@ These are the available config options for making requests. Only the `url` is 
 }
 ```
 
-### Response Schema
+#### Response Schema
 
 ```javascript
 {
@@ -332,9 +333,17 @@ These are the available config options for making requests. Only the `url` is 
 }
 ```
 
-### More
+#### More
 
 more about `axios`, please click [here](https://github.com/mzabriskie/axios) 
+
+### md_sessionStorage
+
+*updating*
+
+### md_localStorage
+
+*updating*
 
 ## License
 
