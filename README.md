@@ -11,6 +11,7 @@ $ npm install
 $ npm run build
 $ npm run dev
 ```
+> Welcome Fork
 
 > 如果`npm` 被墙或者速度比较慢，可以使用淘宝镜像或者安装`cnpm`(淘宝npm)
 
