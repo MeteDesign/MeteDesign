@@ -12,12 +12,12 @@ import shallowEqual from './util/shallowequal'
 class App extends React.Component {
   constructor (props) {
     super(props)
-    let o1 = {a: '1', b: '2'}
-    let o2 = {a: '1', b: '2'}
-    console.log('对象浅对比')
-    console.log(shallowEqual(o1, o2))
-    console.log('对象深对比')
-    console.log(o1 === o2)
+    // let o1 = {a: '1', b: '2'}
+    // let o2 = {a: '1', b: '2'}
+    // console.log('对象浅对比')
+    // console.log(shallowEqual(o1, o2))
+    // console.log('对象深对比')
+    // console.log(o1 === o2)
     this.state = {
       showModal: false,
       showConfirm: false
