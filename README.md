@@ -1,6 +1,18 @@
-# METE DESIGN产品说明
+# METE DESIGN INTRODUCTION
 
-本产品基于React开发。
+MeteDesign is a front end component lib that for a fast and convenient development.This product is based on react and we use antd ui lib as base component.
+
+***PR Welcome***
+
+## Plan
+
+- step 1
+
+  Include antd base component
+
+- step 2
+
+  Provide some common components.Like nav, sider,stamp viewer and so on.
 
 ## Usage
 
@@ -11,7 +23,6 @@ $ npm install
 $ npm run build
 $ npm run dev
 ```
-> Welcome Fork
 
 > 如果`npm` 被墙或者速度比较慢，可以使用淘宝镜像或者安装`cnpm`(淘宝npm)
 
