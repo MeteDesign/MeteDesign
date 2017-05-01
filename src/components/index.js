@@ -7,7 +7,7 @@ import { ModalFrame, Dialog } from './modal/'
 import Input from './input'
 import FormDemo from './form/__test/form_demo'
 import Checkbox from './checkBox'
-import shallowEqual from './util/shallowequal'
+// import shallowEqual from './util/shallowequal'
 
 class App extends React.Component {
   constructor (props) {
