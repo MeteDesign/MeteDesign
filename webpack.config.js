@@ -1,128 +1,272 @@
-var path = require('path')
-var webpack = require('webpack')
-var glob = require('glob')
-var ExtractTextPlugin = require('extract-text-webpack-plugin') // 单独打包css
-var HtmlWebpackPlugin = require('html-webpack-plugin') // HTML文件处理
-// var OpenBrowserPlugin = require('open-browser-webpack-plugin')
-// var CleanPlugin = require('clean-webpack-plugin')
-var CommonsChunkPlugin = webpack.optimize.CommonsChunkPlugin // 单独打包公共模块插件
-var LodashModuleReplacementPlugin = require('lodash-webpack-plugin') // 按需加载lodash
-// var getEntry = function() {
-//  var entry = {}
-//  //读取开发目录,并进行路径裁剪
-//  glob.sync('./src/**/*.js')
-//    .forEach(function(name) {
-//      var start = name.indexOf('src/') + 4,
-//        end = name.length - 3
-//      var n = name.slice(start, end)
-//      n = n.slice(0, n.lastIndexOf('/'))
-//      //保存各个组件的入口
-//      entry[n] = name
-//    })
-//  return entry
-// }
-var prod = process.env.NODE_ENV === 'production' ? true : false
-var out_path = prod ? './dist' : './build'
-module.exports = {
-  entry: {
-    index: path.join(__dirname, 'src/components/index.js')
-  },
-  output: {
-    path: path.join(__dirname, out_path),
-    filename: prod ? 'js/[name].min.js' : 'js/[name].js',
-    chunkFilename: 'js/[name].chunk.js',
-    publicPath: ''
-  },
-  resolve: {
-    root: [],
-    extensions: ['', '.js', '.jsx', 'scss']
-  },
-  module: {
-    loaders: [{
-      test: /\.(jpe?g|png|gif|svg)$/,
-      loader: 'url?limit=8024&name=images/[name].[ext]'
-    }, {
-      test: /\.(woff2?|otf|eot|svg|ttf)$/i,
-      loader: 'url?name=fonts/[name].[ext]'
-    }, {
-      test: /\.less$/,
-      loader: ExtractTextPlugin.extract('style', 'css!less')
-    }, {
-      test: /\.scss$/,
-      loader: ExtractTextPlugin.extract('style-loader', 'css!sass')
-    }, {
-      test: /\.js[x]?$/,
-      exclude: /node_modules/,
-      loader: 'babel'
-    }]
-  },
-  babel: {
-    presets: [
-      ['es2015', {
-        'loose': true
-      }], 'react', 'stage-0'
-    ],
-    plugins: ['transform-runtime', 'transform-class-properties']
-  },
-  plugins: [
-    new HtmlWebpackPlugin({
-      inject: 'body',
-//   filename: 'index.html',
+/**
+ *METE DESIGN WEBPACK V3.1 CONFIGURES
+ *METE DESIGN GROUP
+ *SUPERMAP METEOROLOGY DEPARTMENT
+ *储奎 / KUI CHU
+ *2017-07-10
+*/
 
-      template: './src/HTMLtemplate/index.html'
+/**
+ * module
+ */
+const webpack = require('webpack')
+const path = require('path')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
+const ExtractTextPlugin = require('extract-text-webpack-plugin')
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
+// const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
+const PreloadWebpackPlugin = require('preload-webpack-plugin')
+const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
+const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+/**
+ * global variable of config
+ */
+// replace localhost with 0.0.0.0 if you want to access
+// your app from wifi or a virtual machine
+const host = process.env.HOST || '0.0.0.0'
+const port = process.env.PORT || 80
+const allowedHosts = ['192.168.19.61']
+const sourcePath = path.join(__dirname, './src')
+const distPath = path.join(__dirname, './dist')
+const htmlTemplate = './index.template.html'
+const stats = {
+  assets: true,
+  children: false,
+  chunks: false,
+  hash: false,
+  modules: false,
+  publicPath: false,
+  timings: true,
+  version: false,
+  warnings: true,
+  colors: {
+    green: '\u001b[32m'
+  }
+}
+/**
+ * webpack config
+ */
+module.exports = function (env) {
+  const nodeEnv = env && env.production ? 'production' : 'development'
+  const isProd = nodeEnv === 'production'
+  /**
+   * Mete Design Webpack V3.1 Buiding Informations
+   */
+  console.log('--------------Mete Design Webpack V3.1--------------')
+  console.log('enviroment:' + nodeEnv)
+  console.log('host:' + host)
+  console.log('port:' + port)
+  console.log('dist path:' + distPath)
+  console.log('platform:' + env.platform)
+  console.log('-----------------Mete Design Group------------------')
+  /**
+   * common plugin
+   */
+  const plugins = [
+    new webpack.optimize.CommonsChunkPlugin({
+      // vendor chunk
+      name: 'vendor' // the name of bundle
     }),
-    // new CleanPlugin(['dist', 'build']),
-    // 启动热替换
-    new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin('css/[name].css', {
-      allChunks: true
+    new webpack.optimize.CommonsChunkPlugin({
+      name: 'manifest',
+      minChunks: Infinity
     }),
-    new LodashModuleReplacementPlugin({
-      'collections': true,
-      'paths': true
+
+    // setting production environment will strip out
+    // some of the development code from the app
+    // and libraries
+    new webpack.DefinePlugin({
+      'process.env': { NODE_ENV: JSON.stringify(nodeEnv) }
+    }),
+
+    // preload chunks
+    new PreloadWebpackPlugin(),
+
+    new ChunkManifestPlugin({
+      filename: 'manifest.json',
+      manifestVariable: 'webpackManifest',
+      inlineManifest: false
+    }),
+
+    // create css bundle
+    new ExtractTextPlugin('./css/[name].css'),
+
+    // create index.html
+    new HtmlWebpackPlugin({
+      template: htmlTemplate,
+      inject: true,
+      production: isProd,
+      minify: isProd && {
+        removeComments: true,
+        collapseWhitespace: true,
+        removeRedundantAttributes: true,
+        useShortDoctype: true,
+        removeEmptyAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        keepClosingSlash: true,
+        minifyJS: true,
+        minifyCSS: true,
+        minifyURLs: true
+      }
     })
-  // new webpack.NoErrorsPlugin(),
-  // new OpenBrowserPlugin({
-  //  url: 'http://localhost:8080'
-  // }),
-  /* 公共库 */
-  // new CommonsChunkPlugin({
-  //  name: 'vendors',
-  //  minChunks: Infinity
-  // }),
+     // make sure script tags are async to avoid blocking html render
+    // ---!!!has remove!!!---
+    // new ScriptExtHtmlWebpackPlugin({
+    //   defaultAttribute: 'async'
+    // })
   ]
+  if (isProd) {
+    /**
+     * production envrioment plugin
+     */
+    plugins.push(
+      // minify remove some of the dead code
+      new UglifyJSPlugin({
+        compress: {
+          warnings: false,
+          screw_ie8: true,
+          conditionals: true,
+          unused: true,
+          comparisons: true,
+          sequences: true,
+          dead_code: true,
+          evaluate: true,
+          if_return: true,
+          join_vars: true
+        }
+      })
+    )
+  } else {
+    /**
+     * development enviroment plugin
+     */
+    plugins.push(
+      // make hot reloading work
+      new webpack.HotModuleReplacementPlugin(),
+      // show module names instead of numbers in webpack stats
+      new webpack.NamedModulesPlugin(),
+      // don't spit out any errors in compiled assets
+      new webpack.NoEmitOnErrorsPlugin(),
+      // load DLL files
+      new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/moment-manifest.json')}),
+      new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/lodash-manifest.json')}),
+      // make DLL assets available for the app to download
+      new AddAssetHtmlPlugin([
+        { filepath: require.resolve('./dll/moment.dll.js') },
+        { filepath: require.resolve('./dll/lodash.dll.js') }
+      ])
+    )
+  }
+  return {
+    devtool: isProd ? 'source-map' : 'cheap-module-source-map',
+    entry: {
+      main: path.join(sourcePath, 'index.js'),
+      // static lib
+      vendor: ['lodash', 'moment']
+    },
+    output: {
+      filename: 'js/[name].bundle.js',
+      path: distPath
+    },
+     // loader
+    module: {
+      rules: [
+      // js or jsx loader
+        {
+          test: /\.(js|jsx)$/,
+          exclude: /(node_modules|bower_components)/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              presets: [['es2015', { 'modules': false }], 'react', 'stage-0'],
+              cacheDirectory: true
+              // Since babel-plugin-transform-runtime includes a polyfill that includes a custom regenerator runtime and core.js, the following usual shimming method using webpack.ProvidePlugin will not work:
+              // plugins: ['transform-runtime']
+            }
+          }
+        },
+      // css loader
+        {
+          test: /\.css$/,
+          use: ExtractTextPlugin.extract({
+            use: ['css-loader']
+          })
+        },
+      // scss loader
+        {
+          test: /\.scss$/,
+          exclude: /node_modules/,
+          use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
+            use: [
+              // {loader: 'autoprefixer-loader'},
+
+              {
+                loader: 'css-loader',
+                options: {
+                  // module: true, // css-loader 0.14.5 compatible
+                  // modules: true
+                  // localIdentName: '[hash:base64:5]'
+                  importLoaders: 1,
+                  minimize: isProd
+                }
+              },
+              {
+                loader: 'sass-loader',
+                options: {
+                  outputStyle: 'collapsed',
+                  sourceMap: true,
+                  includePaths: [sourcePath]
+                }
+              }
+            ]
+          })
+        },
+      // images loader
+        {
+          test: /\.(png|svg|jpg|gif)$/,
+          use: [
+            'file-loader?name=[name]-[hash].[ext]&outputPath=./assets/images/'
+          ]
+        },
+        {
+          test: /\.(woff2?|otf|eot|svg|ttf)$/i,
+          loader: 'url-loader?limit=8024&name=./assets/fonts/[name].[ext]',
+          options: {
+            publicPath: distPath
+          }
+        }
+      ]
+    },
+    resolve: {
+      extensions: ['.js', '.jsx'],
+      modules: [path.resolve(__dirname, 'node_modules'), sourcePath]
+    },
+
+    plugins,
+
+    stats,
+    // webpack dev server
+    devServer: {
+    // 文件路劲，一般静态文件需要
+      contentBase: path.join(__dirname, 'src'),
+    // 是否启用gzip压缩
+      compress: true,
+    // 是否启用热替换
+      hot: true,
+      port,
+    // 开启任意ip访问
+      host,
+    // 允许列表中host访问
+      allowedHosts,
+    // 取消host列表安全检查，开发环境启用，默认关闭，开启则allowedHosts无效
+    // disableHostCheck: true,
+    // 关闭webpack重启打包信息，错误和警告仍然会显示
+      noInfo: true,
+    // 浏览器全屏显示编译器错误信息
+      overlay: true,
+    // 公共文件，浏览器可直接访问，HMR必须
+      publicPath: '/'
+    }
+  }
 }
-// 判断开发环境还是生产环境,添加uglify等插件
-// if (process.env.NODE_ENV === 'production') {
-//  module.exports.plugins = (module.exports.plugins || [])
-//    .concat([
-//      new webpack.DefinePlugin({
-//        'process.env': {
-//          NODE_ENV: JSON.stringify('production')
-//        }
-//      }),
-//      new webpack.optimize.UglifyJsPlugin({
-//        compress: {
-//          warnings: false
-//        }
-//      }),
-//      new webpack.optimize.OccurenceOrderPlugin(),
-//    ])
-// } else {
-//  module.exports.devtool = 'source-map'
-module.exports.devServer = {
-  port: 4000,
-  contentBase: './build',
-  host: '0.0.0.0',
-  hot: true,
-  inline: true,
-  historyApiFallback: true,
-  publicPath: '',
-  stats: {
-    colors: true
-  },
-  plugins: [
-    new webpack.HotModuleReplacementPlugin()
-  ]
-}
-// }
