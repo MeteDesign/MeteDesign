@@ -1,0 +1,81 @@
+.header-left{
+  float: left;line-height: 56px
+}
+.header--img{
+  background-image: url(../assets/images/logo.png) ;
+  background-position: 10px 2px;
+  background-size: auto 47px;
+  background-repeat: no-repeat;
+  border-radius: 0;
+  display: block;
+  height: 56px;
+  overflow: hidden;
+  text-decoration: none;
+  margin: 0;
+  padding-left: 33px;
+
+}
+.heder--menu{
+  float: right;
+   border: none;
+    background: transparent;
+    height: 56px;
+    width: 56px;
+    font-size: 20px;
+    color: #fff;cursor: pointer;
+    display: none;
+}
+.header-li:hover{
+   background-color: #1E88E5;height: 56px;box-sizing: border-box;border-bottom: 3px solid #0adba1;
+ }
+.header--img span{
+  color: #fff;line-height: 56px;text-decoration: none;padding-left: 30px;
+}
+.header-li{
+    display: block;
+    float: left;
+    cursor: pointer
+}
+.header-li a{
+    display: block;
+}
+.header-right{
+  float: right;list-style: none;line-height: 56px;margin-right: 21px;
+}
+.header-right  a{
+  text-decoration: none;
+  color: #fff;padding: 0 10px;
+  /*color: #e3ecec;*/
+}
+.banner{
+    width:100%;height: 56px;display: block;position: fixed;z-index: 999;top:0;
+}
+.header-active{
+  background-color: #1E88E5;height: 56px;box-sizing: border-box;border-bottom: 3px solid #0adba1;
+}
+
+@media screen and (max-width:610px){
+  .heder--menu{
+     display: block;
+  }
+  .header-right{
+    display: none;    
+    float: none;
+    position: absolute;
+    top: 56px;
+    z-index: 2;
+    width: 100%;
+    background-color: #2196F3;
+  }
+  .header-ul{
+    display: block;
+  }
+  .header-li{
+    display: block;
+    float: none;
+    width: 100%;
+  }
+  .header-li:hover{
+   background-color: #1e88e5;height: 56px;box-sizing: border-box;border-bottom: 3px solid #0adba1;
+ }
+}

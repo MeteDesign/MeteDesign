@@ -1,2 +1,3 @@
-import Icon from './input.jsx'
-export default Icon
+import Input from './Input';
+
+export default Input;

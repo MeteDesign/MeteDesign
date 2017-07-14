@@ -1,120 +1,97 @@
+/* @flow */
+
 import React from 'react';
-import { PropTypes } from 'react';
-import classNames from 'classnames';
-import createDOMForm from './createDOMForm';
-import PureRenderMixin from 'react-addons-pure-render-mixin';
-// import PureRenderMixin from 'rc-util/lib/PureRenderMixin';
-import omit from 'lodash/omit';
-// import assign from 'object-assign';
-import warning from 'warning';
-import FormItem from './formItem.jsx';
+import { Component, PropTypes } from '../../../libs';
 
-import { FIELD_META_PROP } from './constants';
-import './style/'
+type State = {
+  fields: Array<Component>,
+};
 
-export default class Form extends React.Component {
-    static defaultProps = {
-        prefixCls: 'md-form',
-        hideRequiredMark: false,
-        onSubmit(e) {
-            e.preventDefault();
-        }
+export default class Form extends Component {
+  state: State;
+
+  constructor(props: Object) {
+    super(props);
+
+    this.state = {
+      fields: []
     }
-    static propTypes = {
-        prefixCls: React.PropTypes.string,
-        vertical: React.PropTypes.bool,
-        horizontal: React.PropTypes.bool,
-        inline: React.PropTypes.bool,
-        children: React.PropTypes.any,
-        onSubmit: React.PropTypes.func,
-        hideRequiredMark: React.PropTypes.bool,
+  }
+
+  getChildContext(): { component: Form } {
+    return {
+      component: this
     };
+  }
 
-    static childContextTypes = {
-        vertical: PropTypes.bool,
-    };
+  addField(field: Component): void {
+    this.state.fields.push(field);
+  }
 
-    static Item = FormItem;
+  removeField(field: Component): void {
+    if (field.props.prop) {
+      this.state.fields.splice(this.state.fields.indexOf(field), 1);
+    }
+  }
 
-    static create = (options) => {
-        const formWrapper = createDOMForm(Object.assign({
-            fieldNameProp: 'id',
-        }, options, {
-                fieldMetaProp: FIELD_META_PROP,
-            }));
+  resetFields(): void {
+    this.state.fields.forEach(field => {
+      field.resetField();
+    });
+  }
 
-        /* eslint-disable react/prefer-es6-class */
-        return (Component) => formWrapper(class HOC extends React.Component {
-            static propTypes = {
-                form: PropTypes.object.isRequired,
-            }
-            static childContextTypes = {
-                form: PropTypes.object.isRequired,
-            }
-            getChildContext() {
-                return {
-                    form: this.props.form,
-                };
-            }
-            componentWillMount() {
-                this.__getFieldProps = this.props.form.getFieldProps;
-            }
-            deprecatedGetFieldProps(name, option) {
-                warning(
-                    false,
-                    '`getFieldProps` is not recommended, please use `getFieldDecorator` instead, ' +
-                    'see: http://u.ant.design/get-field-decorator'
-                );
-                return this.__getFieldProps(name, option);
-            }
-            render() {
-                this.props.form.getFieldProps = this.deprecatedGetFieldProps;
+  validate(callback: Function): void {
+    let valid = true;
+    let count = 0;
 
-                const withRef = {};
-                if (options && options.withRef) {
-                    withRef.ref = 'formWrappedComponent';
-                }
-                return <Component {...this.props} {...withRef} />;
-            }
+    // 如果需要验证的fields为空，调用验证时立刻返回callback
+    if (this.state.fields.length === 0 && callback) {
+      callback(true);
+    }
+
+    this.state.fields.forEach(field => {
+      field.validate('', errors => {
+        if (errors) {
+          valid = false;
         }
-        )
-    }
+        if (typeof callback === 'function' && ++count === this.state.fields.length) {
+          callback(valid);
+        }
+      });
+    });
+  }
 
-    constructor(props) {
-        super(props)
+  validateField(prop: string, cb: Function): void {
+    const field = this.state.fields.filter(field => field.props.prop === prop)[0];
 
-        warning(!props.form, 'It is unnecessary to pass `form` to `Form` after antd@1.7.0.');
-    }
+    if (!field) { throw new Error('must call validateField with valid prop string!'); }
 
-    shouldComponentUpdate(...args) {
-        return PureRenderMixin.shouldComponentUpdate.apply(this, args);
-    }
+    field.validate('', cb);
+  }
 
-    getChildContext() {
-        return {
-            vertical: this.props.vertical,
-        };
-    }
-
-    render() {
-        const { prefixCls, hideRequiredMark, className = '', inline, horizontal, vertical } = this.props;
-        const formClassName = classNames(prefixCls, {
-            [`${prefixCls}-horizontal`]: horizontal,
-            [`${prefixCls}-vertical`]: vertical,
-            [`${prefixCls}-inline`]: inline,
-            [`${prefixCls}-hide-required-mark`]: hideRequiredMark,
-        }, className);
-
-        const formProps = omit(this.props, [
-            'prefixCls',
-            'className',
-            'inline',
-            'horizontal',
-            'vertical',
-            'form',
-            'hideRequiredMark',
-        ]);
-
-        return <form {...formProps} className={formClassName} />;
-    }
+  render(): React.Element<any> {
+    return (
+      <form style={this.style()} className={this.className('el-form', this.props.labelPosition && `el-form--label-${this.props.labelPosition}`, {
+        'el-form--inline': this.props.inline
+      })}>{this.props.children}</form>
+    )
+  }
 }
+
+Form.childContextTypes = {
+  component: PropTypes.any
+};
+
+Form.propTypes = {
+  model: PropTypes.object,
+  rules: PropTypes.object,
+  labelPosition: PropTypes.oneOf(['right', 'left', 'top']),
+  labelWidth: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+  labelSuffix: PropTypes.string,
+  inline: PropTypes.bool
+}
+
+Form.defaultProps = {
+  labelPosition: 'right',
+  labelSuffix: ''
+};

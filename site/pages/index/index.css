@@ -1,0 +1,93 @@
+.container{
+    position: relative;
+    width: 100%;min-height: 600px;
+    /*padding-top: 56px;*/
+}
+.banner-c{
+    background: url("../../assets/images/md.png") no-repeat center / cover;height: 100%; position: relative
+}
+.page{
+    height: 100vh;min-height: 700px;padding-top: 56px;
+}
+.introduce-c{
+    max-width: 980px;margin: 0 auto
+}
+.introduce-c h2{
+    text-align: center
+}
+.introduce-c li{
+    float: left;width: 33%;text-align: center;
+    padding: 0 2rem;box-sizing: border-box;
+}
+.introduce-c li h5{
+    font-size: 1.8rem;color: #3a3838;text-align: center;font-weight: 300;margin: 0 0 10px 0
+}
+.introduce-c li img{
+   width: 100px;margin-bottom: 10px;height: 100px;
+}
+.introduce-c li p{
+   color: #666
+}
+.introduce-text-c{
+    clear: both;padding-top: 20px;
+}
+.introduce-text-c span{
+    display: block;text-indent: 2em;color: #252424
+}
+.container::after{
+    content: '';
+    display: block;
+     height: 1px;
+     clear: both
+}
+.container::before{
+    content: '';
+    display: block;
+   
+}
+.banner-text-container{
+    position: absolute;
+    left: 0;
+    top: 53%;
+    /*bottom: 170px;*/
+    color: #fff;
+    text-align: right;
+    font-family: Lato, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", SimSun, sans-serif;
+    opacity: 0
+}
+.mete{
+    font-size: 40px;
+    font-weight: normal;
+    white-space: nowrap;
+}
+.design{
+    color: #FF3171;
+    display: inline-block;
+    font-size: 40px;
+}
+.banner-btn{
+    display: inline-block;
+    height: 40px;
+    padding: 0 16px;
+    border-radius: 4px;
+    border: 1px solid #0ae;
+    color: #0ae;
+    font-size: 15px;
+    background: transparent;
+    -webkit-transition: box-shadow 0.45s ease-out;
+    transition: box-shadow 0.45s ease-out;
+    text-align: center;
+    line-height: 36px;
+    margin-left: 8px;
+    cursor: pointer
+}
+.banner-btn:hover{
+        box-shadow: 0 0 10px #0ae;
+}
+.banner-introduce{
+    font-size: 18px;
+    margin: 10px 0px
+}
+.test{
+    background-image: url("../../assets/images/md.png")
+}

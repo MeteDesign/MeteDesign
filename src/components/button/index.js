@@ -1,5 +1,6 @@
-// author:储奎
-// date:2017.01.17
-import Button from './button'
+import Button from './Button';
+import ButtonGroup from './ButtonGroup';
 
-export default Button
+Button.Group = ButtonGroup;
+
+export default Button;

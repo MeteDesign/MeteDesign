@@ -1,95 +1,197 @@
-import React from 'react'
-import _ from 'lodash'
-import classNames from 'classnames'
-// import Icon from '../icon'
+/* @flow */
 
-import './style/index.scss'
+import React from 'react';
+import { Component, PropTypes } from '../../../libs';
 
-export default class Input extends React.Component {
-//   constructor (props) {
-//     super(props)
-//   }
-  renderLabel (children) {
-    const props = this.props
-    if (!props.prefixLabel && !props.suffixLabel) return children
-    const prefixLabel = props.prefixLabel ? (
-      <span className={`${props.prefixCls}-prefixLabel`}>
-        {props.prefixLabel}
-      </span>
-        ) : null
-    const suffixLabel = props.suffixLabel ? (
-      <span className={`${props.prefixCls}-suffixLabel`}>
-        {props.suffixLabel}
-      </span>
-        ) : null
-    return (
-      <span className={`${props.prefixCls}-labelGroup`}>
-        {prefixLabel}
-        {children}
-        {suffixLabel}
-      </span>
-    )
+import calcTextareaHeight from './calcTextareaHeight'
+
+type State = {
+  textareaStyle: null | { height: string }
+}
+
+export default class Input extends Component {
+  state: State;
+
+  static defaultProps = {
+    type: 'text',
+    autosize: false,
+    rows: 2,
+    autoComplete: 'off'
   }
-  renderIcon (iptEle) {
-    const props = this.props
-    if (!props.prefixIcon && !props.suffixIcon) return iptEle
-    const prefixIcon = props.prefixIcon ? (
-      <span className={`${props.prefixCls}-prefixIcon`}>
-        {props.prefixIcon}
-      </span>
-        ) : null
-    const suffixIcon = props.suffixIcon ? (
-      <span className={`${props.prefixCls}-suffixIcon`}>
-        {props.suffixIcon}
-      </span>
-        ) : null
-    return (
-      <span className={`${props.prefixCls}-iconGroup`}>
-        {prefixIcon}
-        {iptEle}
-        {suffixIcon}
-      </span>
-    )
+
+  constructor(props: Object) {
+    super(props);
+
+    this.state = {
+      textareaStyle: null
+    };
   }
-  renderInput () {
-    const props = this.props
-    // const props = Object.assign({}, this.props)
-    console.log(typeof props)
-    const otherProps = _.omit(props, [
-      'prefixCls',
-      'prefixIcon',
-      'prefixLabel',
-      'suffixIcon',
-      'suffixLabel'
-    ])
-    //  You can get more about Controlled and Uncontrolled Component.
-    //  Click here https://goshakkk.name/controlled-vs-uncontrolled-inputs-react/
-    //  以防出现使用原生value属性导致react无法重新渲染Inpue组件，从而
-    //  使得Inpue组件不可键入值，特此强制
-    //  不允许使用原生value属性，当含有原生value属性则强制替换为defaultValue
-    if ('value' in otherProps) {
-      let _value = otherProps.value
-      delete otherProps.value
-      otherProps.defaultValue = _value
+
+  componentDidMount() {
+    this.resizeTextarea();
+  }
+
+  /* <Instance Methods */
+
+  focus(): void {
+    setTimeout(() => {
+      (this.refs.input || this.refs.textarea).focus();
+    });
+  }
+
+  blur(): void {
+    setTimeout(() => {
+      (this.refs.input || this.refs.textarea).blur();
+    });
+  }
+
+  /* Instance Methods> */
+
+  fixControlledValue(value: mixed): mixed {
+    if (typeof value === 'undefined' || value === null) {
+      return '';
     }
-    const className = classNames(props.prefixCls,
-      {
-        [`${props.prefixCls}-hasIcon`]: props.prefixIcon || props.suffixIcon,
-        [`${props.prefixCls}-hasPreLabel`]: props.prefixLabel,
-        [`${props.prefixCls}-hasSufLabel`]: props.suffixLabel
-      }, props.className)
-    const Input = (
-      <input
-        {...otherProps}
-        className={className}
-                />
-        )
-    return this.renderIcon(Input)
+    return value;
   }
-  render () {
-    return this.renderLabel(this.renderInput())
+
+  handleChange(e: SyntheticInputEvent): void {
+    const { onChange } = this.props;
+
+    if (onChange) {
+      onChange(e.target.value);
+    }
+
+    this.resizeTextarea();
+  }
+
+  handleFocus(e: SyntheticEvent): void {
+    const { onFocus } = this.props;
+    if (onFocus) onFocus(e)
+  }
+
+  handleBlur(e: SyntheticEvent): void {
+    const { onBlur } = this.props;
+    if (onBlur) onBlur(e)
+  }
+
+  handleIconClick(): void {
+    if (this.props.onIconClick) {
+      this.props.onIconClick()
+    }
+  }
+
+  resizeTextarea(): void {
+    const { autosize, type } = this.props;
+
+    if (!autosize || type !== 'textarea') {
+      return;
+    }
+
+    const minRows = autosize.minRows;
+    const maxRows = autosize.maxRows;
+
+    this.setState({
+      textareaStyle: calcTextareaHeight(this.refs.textarea, minRows, maxRows)
+    });
+  }
+
+  render(): React.Element<any> {
+    const { type, size, prepend, append, icon, autoComplete, validating, rows, onMouseEnter, onMouseLeave,
+      ...otherProps
+    } = this.props;
+
+    const classname = this.classNames(
+      type === 'textarea' ? 'el-textarea' : 'el-input',
+      size && `el-input--${size}`, {
+        'is-disabled': this.props.disabled,
+        'el-input-group': prepend || append,
+        'el-input-group--append': !!append,
+        'el-input-group--prepend': !!prepend
+      }
+    );
+
+    if ('value' in this.props) {
+      otherProps.value = this.fixControlledValue(this.props.value);
+
+      delete otherProps.defaultValue;
+    }
+
+    delete otherProps.style;
+    delete otherProps.autosize;
+    delete otherProps.onIconClick;
+
+    if (type === 'textarea') {
+      return (
+        <div style={this.style()} className={this.className(classname)}>
+          <textarea { ...otherProps }
+            ref="textarea"
+            className="el-textarea__inner"
+            style={this.state.textareaStyle}
+            rows={rows}
+            onChange={this.handleChange.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+          ></textarea>
+        </div>
+      )
+    } else {
+      return (
+        <div style={this.style()} className={this.className(classname)} onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave}>
+          { prepend && <div className="el-input-group__prepend">{prepend}</div> }
+          { typeof icon === 'string' ? <i className={`el-input__icon el-icon-${icon}`} onClick={this.handleIconClick.bind(this)}>{prepend}</i> : icon }
+          <input { ...otherProps }
+            ref="input"
+            type={type}
+            className="el-input__inner"
+            autoComplete={autoComplete}
+            onChange={this.handleChange.bind(this)}
+            onFocus={this.handleFocus.bind(this)}
+            onBlur={this.handleBlur.bind(this)}
+          />
+          { validating && <i className="el-input__icon el-icon-loading"></i> }
+          { append && <div className="el-input-group__append">{append}</div> }
+        </div>
+      )
+    }
   }
 }
-Input.defaultProps = {
-  prefixCls: 'md-input'
+
+Input.propTypes = {
+  // base
+  type: PropTypes.string,
+  icon: PropTypes.oneOfType([PropTypes.element, PropTypes.string]),
+  disabled: PropTypes.bool,
+  name: PropTypes.string,
+  placeholder: PropTypes.string,
+  readOnly: PropTypes.bool,
+  autoFocus: PropTypes.bool,
+  maxLength: PropTypes.number,
+  minLength: PropTypes.number,
+  defaultValue: PropTypes.any,
+  value: PropTypes.any,
+
+  // type !== 'textarea'
+  size: PropTypes.oneOf(['large', 'small', 'mini']),
+  prepend: PropTypes.node,
+  append: PropTypes.node,
+
+  // type === 'textarea'
+  autosize: PropTypes.oneOfType([ PropTypes.bool, PropTypes.object ]),
+  rows: PropTypes.number,
+
+  // event
+  onFocus: PropTypes.func,
+  onBlur: PropTypes.func,
+  onChange: PropTypes.func,
+  onIconClick: PropTypes.func,
+  onMouseEnter: PropTypes.func,
+  onMouseLeave: PropTypes.func,
+
+  // autoComplete
+  autoComplete: PropTypes.string,
+  inputSelect: PropTypes.func,
+
+  // form related
+  form: PropTypes.string,
+  validating: PropTypes.bool,
 }

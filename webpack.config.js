@@ -24,9 +24,9 @@ const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
 // replace localhost with 0.0.0.0 if you want to access
 // your app from wifi or a virtual machine
 const host = process.env.HOST || '0.0.0.0'
-const port = process.env.PORT || 80
+const port = process.env.PORT || 8081
 const allowedHosts = ['192.168.19.61']
-const sourcePath = path.join(__dirname, './src')
+const sourcePath = path.join(__dirname, './site')
 const distPath = path.join(__dirname, './dist')
 const htmlTemplate = './index.template.html'
 const stats = {
@@ -89,7 +89,7 @@ module.exports = function (env) {
     }),
 
     // create css bundle
-    new ExtractTextPlugin('./css/[name].css'),
+    new ExtractTextPlugin('css/[name].css'),
 
     // create index.html
     new HtmlWebpackPlugin({
@@ -166,7 +166,8 @@ module.exports = function (env) {
     },
     output: {
       filename: 'js/[name].bundle.js',
-      path: distPath
+      path: distPath,
+      publicPath: './'
     },
      // loader
     module: {
@@ -189,7 +190,8 @@ module.exports = function (env) {
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
-            use: ['css-loader']
+            use: ['css-loader'],
+            publicPath: '/'
           })
         },
       // scss loader
@@ -197,6 +199,7 @@ module.exports = function (env) {
           test: /\.scss$/,
           exclude: /node_modules/,
           use: ExtractTextPlugin.extract({
+            publicPath: '/',
             fallback: 'style-loader',
             use: [
               // {loader: 'autoprefixer-loader'},
@@ -207,16 +210,16 @@ module.exports = function (env) {
                   // module: true, // css-loader 0.14.5 compatible
                   // modules: true
                   // localIdentName: '[hash:base64:5]'
-                  importLoaders: 1,
+                  // importLoaders: 1,
                   minimize: isProd
                 }
               },
               {
                 loader: 'sass-loader',
                 options: {
-                  outputStyle: 'collapsed',
+                  // outputStyle: 'collapsed',
                   sourceMap: true,
-                  includePaths: [sourcePath]
+                  includePaths: [sourcePath, path.join(__dirname, './src')]
                 }
               }
             ]
@@ -225,16 +228,19 @@ module.exports = function (env) {
       // images loader
         {
           test: /\.(png|svg|jpg|gif)$/,
-          use: [
-            'file-loader?name=[name]-[hash].[ext]&outputPath=./assets/images/'
-          ]
+          loader: 'url-loader?limit=8024&name=assets/images/[name]-[hash].[ext]'
+
         },
+        // {
+        //   test: /\.(woff2?|otf|eot|ttf)$/i,
+        //   loader: 'url-loader?limit=8024&name=assets/fonts/[name].[ext]',
+        //   options: {
+        //     publicPath: distPath
+        //   }
+        // },
         {
-          test: /\.(woff2?|otf|eot|svg|ttf)$/i,
-          loader: 'url-loader?limit=8024&name=./assets/fonts/[name].[ext]',
-          options: {
-            publicPath: distPath
-          }
+          test: /\.md$/,
+          loader: 'raw-loader'
         }
       ]
     },
@@ -249,7 +255,7 @@ module.exports = function (env) {
     // webpack dev server
     devServer: {
     // 文件路劲，一般静态文件需要
-      contentBase: path.join(__dirname, 'src'),
+      contentBase: '/',
     // 是否启用gzip压缩
       compress: true,
     // 是否启用热替换
