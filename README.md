@@ -24,7 +24,7 @@ $ npm run dev
 [Webpack](https://github.com/webpack/webpack) 是当下最热门的前端资源模块化管理和打包工具。它可以将许多松散的模块按照依赖和规则打包成符合生产环境部署的前端资源。还可以将按需加载的模块进行代码分隔，等到实际需要的时候再异步加载。通过 `loader` 的转换，任何形式的资源都可以视作模块，比如 CommonJs 模块、 AMD 模块、 ES6 模块、CSS、图片、 JSON、Coffeescript、 LESS 等。
 
 WebPack入门有一点门槛，建议初学者先看我们是如何配置的，然后再自己动手去了解相关的知识。这里我推荐两篇入门级别的文章，[Webpack-summary](https://diamont1001.github.io/webpack-summary/) 和 [入门Webpack，看这篇就够了](http://www.jianshu.com/p/42e11515c10f#)
-
+> 本产品使用的是 [Mete Design Webpack V3.1](https://github.com/MeteDesign/Webpack)
 #### JavaScript Standard Style
 
 语法规范采用[JavaScript Standard Style](https://github.com/feross/standard) 工具来严格要求代码风格
