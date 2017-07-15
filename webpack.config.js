@@ -1,5 +1,6 @@
 /**
  *METE DESIGN WEBPACK V3.1 CONFIGURES
+ *GitHub:https://github.com/MeteDesign/Webpack
  *METE DESIGN GROUP
  *SUPERMAP METEOROLOGY DEPARTMENT
  *储奎 / KUI CHU
