@@ -1,5 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
+import Promise from 'es6-promise'
+Promise.polyfill()
 // import Button from '../src/components/button'
 // import MapContaniner from '../src/components/map'
 import {

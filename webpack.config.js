@@ -158,8 +158,8 @@ module.exports = function (env) {
       // don't spit out any errors in compiled assets
       new webpack.NoEmitOnErrorsPlugin()
       // load DLL files
-      //new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_manifest.json')}),
-      //new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_dom_manifest.json')}),
+      // new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_manifest.json')}),
+      // new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_dom_manifest.json')}),
       // make DLL assets available for the app to download
       //  new AddAssetHtmlPlugin([
       //   { filepath: require.resolve('./dll/react.dll.js') },
@@ -170,7 +170,7 @@ module.exports = function (env) {
   return {
     devtool: isProd ? 'source-map' : 'cheap-module-source-map',
     entry: {
-      main: path.join(sourcePath, 'index.js'),
+      main: ['babel-polyfill', path.join(sourcePath, 'index.js')],
       // static lib
       vendor: ['react', 'react-dom', 'react-router-dom']
     },
@@ -201,7 +201,11 @@ module.exports = function (env) {
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
-            use: ['css-loader'],
+            use: [{
+              loader: 'css-loader',
+              options: {
+                minimize: isProd
+              }}],
             publicPath: '/'
           })
         },
