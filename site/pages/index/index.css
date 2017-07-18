@@ -1,14 +1,11 @@
-.container{
-    position: relative;
-    width: 100%;min-height: 600px;
-    /*padding-top: 56px;*/
-}
+
 .banner-c{
     background: url("../../assets/images/md.png") no-repeat center / cover;height: 100%; position: relative
 }
 .page{
-    height: 100vh;min-height: 700px;padding-top: 56px;
+    height: 100vh;min-height: 700px;
 }
+
 .introduce-c{
     max-width: 980px;margin: 0 auto
 }
@@ -33,17 +30,6 @@
 }
 .introduce-text-c span{
     display: block;text-indent: 2em;color: #252424
-}
-.container::after{
-    content: '';
-    display: block;
-     height: 1px;
-     clear: both
-}
-.container::before{
-    content: '';
-    display: block;
-   
 }
 .banner-text-container{
     position: absolute;

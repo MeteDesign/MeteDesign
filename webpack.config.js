@@ -14,17 +14,18 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const ExtractTextPlugin = require('extract-text-webpack-plugin')
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin')
-// const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
+const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+// const CompressionPlugin = require('compression-webpack-plugin')
 /**
  * global variable of config
  */
 // replace localhost with 0.0.0.0 if you want to access
 // your app from wifi or a virtual machine
 const host = process.env.HOST || '0.0.0.0'
-const port = process.env.PORT || 8081
+const port = process.env.PORT || 80
 const allowedHosts = ['192.168.19.61']
 const sourcePath = path.join(__dirname, './site')
 const distPath = path.join(__dirname, './dist')
@@ -51,7 +52,7 @@ module.exports = function (env) {
   const isProd = nodeEnv === 'production'
   /**
    * Mete Design Webpack V3.1 Buiding Informations
-   */
+  */
   console.log('--------------Mete Design Webpack V3.1--------------')
   console.log('enviroment:' + nodeEnv)
   console.log('host:' + host)
@@ -63,6 +64,13 @@ module.exports = function (env) {
    * common plugin
    */
   const plugins = [
+    // new CompressionPlugin({
+    //   asset: '[path].gz[query]',
+    //   algorithm: 'gzip',
+    //   test: /\.(js|html|png|svg|jpg|gif)$/,
+    //   threshold: 500,
+    //   minRatio: 0.5
+    // }),
     new webpack.optimize.CommonsChunkPlugin({
       // vendor chunk
       name: 'vendor' // the name of bundle
@@ -80,16 +88,17 @@ module.exports = function (env) {
     }),
 
     // preload chunks
-    new PreloadWebpackPlugin(),
+    // new PreloadWebpackPlugin(),
 
-    new ChunkManifestPlugin({
-      filename: 'manifest.json',
-      manifestVariable: 'webpackManifest',
-      inlineManifest: false
-    }),
+    // new ChunkManifestPlugin({
+    //   filename: 'manifest.json',
+    //   manifestVariable: 'webpackManifest',
+    //   inlineManifest: false
+    // }),
 
     // create css bundle
-    new ExtractTextPlugin('css/[name].css'),
+    // allChunks set true is for code splitting
+    new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true}),
 
     // create index.html
     new HtmlWebpackPlugin({
@@ -146,15 +155,15 @@ module.exports = function (env) {
       // show module names instead of numbers in webpack stats
       new webpack.NamedModulesPlugin(),
       // don't spit out any errors in compiled assets
-      new webpack.NoEmitOnErrorsPlugin(),
+      new webpack.NoEmitOnErrorsPlugin()
       // load DLL files
-      new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/moment-manifest.json')}),
-      new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/lodash-manifest.json')}),
+      //new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_manifest.json')}),
+      //new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_dom_manifest.json')}),
       // make DLL assets available for the app to download
-      new AddAssetHtmlPlugin([
-        { filepath: require.resolve('./dll/moment.dll.js') },
-        { filepath: require.resolve('./dll/lodash.dll.js') }
-      ])
+      //  new AddAssetHtmlPlugin([
+      //   { filepath: require.resolve('./dll/react.dll.js') },
+      //   { filepath: require.resolve('./dll/react_dom.dll.js') }
+      //  ])
     )
   }
   return {
@@ -162,10 +171,11 @@ module.exports = function (env) {
     entry: {
       main: path.join(sourcePath, 'index.js'),
       // static lib
-      vendor: ['lodash', 'moment']
+      vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: {
-      filename: 'js/[name].bundle.js',
+      filename: 'js/[name]-[hash].bundle.js',
+      chunkFilename: 'js/[id]-[hash].bundle.js',
       path: distPath,
       publicPath: './'
     },
@@ -182,7 +192,7 @@ module.exports = function (env) {
               presets: [['es2015', { 'modules': false }], 'react', 'stage-0'],
               cacheDirectory: true
               // Since babel-plugin-transform-runtime includes a polyfill that includes a custom regenerator runtime and core.js, the following usual shimming method using webpack.ProvidePlugin will not work:
-              // plugins: ['transform-runtime']
+
             }
           }
         },
@@ -231,13 +241,13 @@ module.exports = function (env) {
           loader: 'url-loader?limit=8024&name=assets/images/[name]-[hash].[ext]'
 
         },
-        // {
-        //   test: /\.(woff2?|otf|eot|ttf)$/i,
-        //   loader: 'url-loader?limit=8024&name=assets/fonts/[name].[ext]',
-        //   options: {
-        //     publicPath: distPath
-        //   }
-        // },
+        {
+          test: /\.(woff2?|otf|eot|ttf)$/i,
+          loader: 'url-loader?limit=8024&name=assets/fonts/[name].[ext]',
+          options: {
+            publicPath: distPath
+          }
+        },
         {
           test: /\.md$/,
           loader: 'raw-loader'

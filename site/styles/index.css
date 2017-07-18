@@ -3,8 +3,8 @@
 }
 .header--img{
   background-image: url(../assets/images/logo.png) ;
-  background-position: 10px 2px;
-  background-size: auto 47px;
+  background-position: 11px 7px;
+  background-size: auto 43px;
   background-repeat: no-repeat;
   border-radius: 0;
   display: block;
@@ -48,12 +48,29 @@
   /*color: #e3ecec;*/
 }
 .banner{
-    width:100%;height: 56px;display: block;position: fixed;z-index: 999;top:0;
+    width:100%;height: 56px;display: block;position: fixed;z-index: 1;top:0;
 }
 .header-active{
   background-color: #1E88E5;height: 56px;box-sizing: border-box;border-bottom: 3px solid #0adba1;
 }
-
+.container{
+    position: relative;
+    width: 100%;min-height: 600px;
+}
+.container::after{
+    content: '';
+    display: block;
+     height: 1px;
+     clear: both
+}
+.container::before{
+    content: '';
+    display: block;
+   
+}
+.page-top{
+    padding-top: 56px;
+}
 @media screen and (max-width:610px){
   .heder--menu{
      display: block;
@@ -78,4 +95,75 @@
   .header-li:hover{
    background-color: #1e88e5;height: 56px;box-sizing: border-box;border-bottom: 3px solid #0adba1;
  }
+}
+
+.foot{
+        background-color: #263238;color:#fff;padding: 20px 20px
+    }
+    .foot h1,h2,h3{
+       padding: 20px 0px;font-weight: normal
+    }
+     .foot span{
+       padding: 20px 0px;font-size: 16px
+    }
+
+/**/
+     .foot--nav{
+        position:relative;padding: 20px;color: #fff;margin: 0 auto
+    }
+      .foot--nav::after{
+        content: ''; clear: both;display: block;
+      }
+   .foot--help{
+       width:12%;float: left;color: #fff;margin: 0 25px;
+   }
+   .foot--help > img:first-child{
+       height: 200px;width: 200px;
+   }
+   .foot--help  li{
+       color: #fff;padding: 5px
+   }
+   .foot--help  a{
+       color: #fff;padding: 5px
+   }
+   .foot--help h2{    font-weight: normal;}
+   .foot--help::after{
+        content: '';
+        clear: both;
+        display: block;
+   }
+   .foot--help::before{
+        content: '';
+        clear: both;
+        display: block;
+        
+   }
+   .foot--split{
+       clear: both;
+       display: block;border-bottom: 1px solid #666
+    }
+   .foot--logo{
+       text-align: center;min-width: 200px;
+   }
+   .foot--logo span{display: block;font-size: 28px}
+.foot--rights{
+    text-align: center
+}
+@media screen and (min-width: 1024px) {
+   
+}
+
+@media screen and (max-width: 900px) {
+     .foot--help:nth-of-type(1){
+       width:100%;float: none;
+   }
+   .foot--help{
+       width: 33.3333%;box-sizing: border-box;margin: 0
+   }
+}
+@media screen and (max-width: 460px) {
+     .foot--help{
+       width:100%;float: none;text-align: center
+   }
+  
 }

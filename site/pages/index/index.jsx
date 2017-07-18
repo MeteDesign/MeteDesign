@@ -1,8 +1,9 @@
 import React from 'react'
 import '../../styles/color.css'
-import './index.css'
-import { Link } from 'react-router'
+// import { Link } from 'react-router'
 import anime from 'animejs'
+import './index.css'
+
 export default class Home extends React.Component {
   scrollTo (tar) {
     var tar_dom = document.getElementById(tar)
@@ -41,8 +42,8 @@ export default class Home extends React.Component {
   }
   render () {
     return (
-      <div className='container' id='page-main'>
-        <div className='banner-c page'>
+      <div >
+        <div className='banner-c page page-top'>
           <div className='banner-text-container'>
             <div>
               <span className='mete'>METE </span>
@@ -56,7 +57,7 @@ export default class Home extends React.Component {
           </div>
         </div>
 
-        <div className='introduce-c page' id='page-intro'>
+        <div className='introduce-c page page-top' id='page-intro'>
           <h2>METE DESIGN is made with...</h2>
           <ul >
             <li>
@@ -109,16 +110,27 @@ export default class Home extends React.Component {
 
         </div>
         <div className='splitLine' />
-        <div className='introduce-c page' id='page-start'>
+        <div className='introduce-c page page-top' id='page-start'>
           <h2>Getting Started</h2>
-          <pre><code>
-                        $ git clone https://github.com/ghost60/XMMSSP.git<br />
-                        $ npm install<br />
-                        $ npm start<br />
+          <pre className='language-shell'>
+            <code className=' language-shell'>
+            $ git clone https://github.com/MeteDesign/MeteDesign.git</code><br />
+            <code className=' language-shell'>
+            $ npm install
+
+            </code><br />
+            <code className=' language-shell'>
+            $ npm run build
+             </code><br />
+            <code className=' language-shell'>
+            $ npm run generdll
+             </code><br />
+            <code className=' language-shell'>
+            $ npm run dev
+
           </code>
           </pre>
         </div>
-        <div className='test'>ssss</div>
       </div>
     )
   }
