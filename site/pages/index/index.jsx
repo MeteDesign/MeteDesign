@@ -57,60 +57,99 @@ export default class Home extends React.Component {
           </div>
         </div>
 
-        <div className='introduce-c page page-top' id='page-intro'>
+        <div className='introduce-c  page-top' id='page-intro'>
+          <h2>Introduce</h2>
+          <div className='introduce-text-c' >
+            <span className='intro-text'>METE DESIGN是一套包含前端、服务端两大模块的产品，致力于帮助开发团队构建一套统一、方便、快捷的开发模式。</span>
+            <div className='card'>
+              <div className='card-content'>
+                <img src={require('../../assets/images/standard.png')} alt='规范' />
+                <h3>规范</h3>
+                <a href='#/standard' target='_blank' className='btn-a'>查看详情</a>
+                <p>了解产品开发规范，帮助团队构建统一开发模式、便于项目维护更新</p>
+              </div>
+            </div>
+            <div className='card'>
+              <div className='card-content'>
+                <img src={require('../../assets/images/components.png')} alt='规范' />
+                <h3>组件</h3>
+                <p>包含前端基础组件以及GIS组件，使用组件快速体验交互细节，帮助工程师快速开发。</p>
+                <a href='#/components' target='_blank' className='btn-a'>查看详情</a>
+              </div>
+            </div>
+            <div className='card'>
+              <div className='card-content'>
+                <img src={require('../../assets/images/resource.png')} alt='规范' />
+                <h3>资源</h3>
+                <p>提供开发学习资源与分享，构建开放美好生态。</p>
+                <a href='#/resource' target='_blank' className='btn-a'>查看详情</a>
+              </div>
+            </div>
+            <div className='card'>
+              <div className='card-content'>
+                <img src={require('../../assets/images/middleware.jpg')} alt='规范' />
+                <h3>中间件</h3>
+                <p>基于Nodejs层面中间件，提供统一接口服务。</p>
+                <a href='#/middleware' target='_blank' className='btn-a'>查看详情</a>
+              </div>
+            </div>
+            <div className='card'>
+              <div className='card-content'>
+                <img src={require('../../assets/images/toollib.png')} alt='规范' />
+                <h3>工具库</h3>
+                <p>自建开发工具库，简化开发，提高开发体验。</p>
+                <a href='#/toollib' target='_blank' className='btn-a'>查看详情</a>
+              </div>
+            </div>
+          </div>
           <h2>METE DESIGN is made with...</h2>
           <ul >
             <li>
               <a href='http://facebook.github.io/react' target='_blank' >
                 <img src={require('../../assets/images/reactjs.png')} alt='ReactJS' title='ReactJS' />
-                <h5 >ReactJS</h5>
+                <h3 >ReactJS</h3>
                 <p>A JavaScript library for building user interfaces</p>
               </a>
             </li>
             <li >
               <a href='http://www.w3.org/html/' target='_blank' >
                 <img src={require('../../assets/images/html5.png')} alt='HTML' title='HTML' />
-                <h5 >HTML5</h5>
+                <h3 >HTML5</h3>
                 <p >The markup language of the internet</p>
               </a>
             </li>
             <li >
               <a href='http://www.w3.org/Style/CSS/Overview.en.html' target='_blank' >
                 <img src={require('../../assets/images/css3.png')} alt='CSS3' title='CSS3' />
-                <h5>CSS3</h5>
+                <h3>CSS3</h3>
                 <p >The presentation language of the internet</p>
               </a>
             </li>
             <li >
               <a href='https://nodejs.org' target='_blank' >
                 <img src={require('../../assets/images/nodejs.png')} alt='nodejs' title='nodejs' />
-                <h5>NodeJs</h5>
+                <h3>NodeJs</h3>
                 <p >Node.js® is a JavaScript runtime built on Chrome's V8 JavaScript engine.</p>
               </a>
             </li>
             <li >
               <a href='https://www.npmjs.com/' target='_blank' >
                 <img src={require('../../assets/images/npm.jpg')} alt='npm' title='npm' />
-                <h5>NPM</h5>
+                <h3>NPM</h3>
                 <p >npm is the package manager for JavaScript</p>
               </a>
             </li>
             <li >
               <a href='https://github.com/webpack/webpack' target='_blank' >
                 <img src={require('../../assets/images/webpack.svg')} alt='webpack' title='webpack' />
-                <h5>WebPack</h5>
+                <h3>WebPack</h3>
                 <p >webpack is a module bundler.</p>
               </a>
             </li>
           </ul>
-          <div className='introduce-text-c' >
-            <span>在诸多项目的开发中，其中往往存在很多类似的页面和组件，大面积出现代码的冗余、代码书写不规范、代码质量很值得商榷等等一系列的问题。基于此，METE DESIGN便由此而来。</span>
-            <span>METE DESIGN是一个高内聚，松耦合，数据驱动，紧扣业务逻辑，交互性强的前端框架。在给用户带来全新的UI体验的同时还提供了非常震撼的UE。</span>
-          </div>
-
         </div>
         <div className='splitLine' />
-        <div className='introduce-c page page-top' id='page-start'>
+        <div className='introduce-c page-top' id='page-start'>
           <h2>Getting Started</h2>
           <pre className='language-shell'>
             <code className=' language-shell'>
@@ -120,16 +159,17 @@ export default class Home extends React.Component {
 
             </code><br />
             <code className=' language-shell'>
-            $ npm run build
+            $ npm run generdll
              </code><br />
             <code className=' language-shell'>
-            $ npm run generdll
+            $ npm run build
              </code><br />
             <code className=' language-shell'>
             $ npm run dev
 
           </code>
           </pre>
+          <a href='#/standard' className='start-learning'>开始学习</a>
         </div>
       </div>
     )

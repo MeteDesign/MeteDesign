@@ -19,6 +19,8 @@ const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin')
 const PreloadWebpackPlugin = require('preload-webpack-plugin')
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin')
 const AddAssetHtmlPlugin = require('add-asset-html-webpack-plugin')
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin')
+const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin')
 // const CompressionPlugin = require('compression-webpack-plugin')
 /**
  * global variable of config
@@ -30,7 +32,7 @@ const port = process.env.PORT || 80
 const allowedHosts = ['192.168.19.61']
 const sourcePath = path.join(__dirname, './site')
 const distPath = path.join(__dirname, './dist')
-const htmlTemplate = './index.template.html'
+const htmlTemplate = './index.template.ejs'
 const stats = {
   assets: true,
   children: false,
@@ -91,15 +93,9 @@ module.exports = function (env) {
     // preload chunks
     // new PreloadWebpackPlugin(),
 
-    // new ChunkManifestPlugin({
-    //   filename: 'manifest.json',
-    //   manifestVariable: 'webpackManifest',
-    //   inlineManifest: false
-    // }),
-
     // create css bundle
     // allChunks set true is for code splitting
-    new ExtractTextPlugin({filename: 'css/[name].css', allChunks: true}),
+    new ExtractTextPlugin({filename: 'css/[name]-[contenthash].css', allChunks: true}),
 
     // create index.html
     new HtmlWebpackPlugin({
@@ -118,12 +114,24 @@ module.exports = function (env) {
         minifyCSS: true,
         minifyURLs: true
       }
-    })
+    }),
      // make sure script tags are async to avoid blocking html render
     // ---!!!has remove!!!---
     // new ScriptExtHtmlWebpackPlugin({
     //   defaultAttribute: 'async'
     // })
+    new InlineManifestWebpackPlugin({
+      name: 'webpackManifest'
+    }),
+    new InlineChunkManifestHtmlWebpackPlugin({
+      manifestPlugins: [
+        new ChunkManifestPlugin({
+          filename: 'manifest.json',
+          manifestVariable: 'webpackManifest',
+          inlineManifest: false
+        })
+      ]
+    })
   ]
   if (isProd) {
     /**
@@ -143,7 +151,8 @@ module.exports = function (env) {
           evaluate: true,
           if_return: true,
           join_vars: true
-        }
+        },
+        mangle: false
       })
     )
   } else {
@@ -160,7 +169,7 @@ module.exports = function (env) {
       // load DLL files
       // new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_manifest.json')}),
       // new webpack.DllReferencePlugin({context: __dirname, manifest: require('./dll/react_dom_manifest.json')}),
-      // make DLL assets available for the app to download
+      // // make DLL assets available for the app to download
       //  new AddAssetHtmlPlugin([
       //   { filepath: require.resolve('./dll/react.dll.js') },
       //   { filepath: require.resolve('./dll/react_dom.dll.js') }
@@ -175,8 +184,8 @@ module.exports = function (env) {
       vendor: ['react', 'react-dom', 'react-router-dom']
     },
     output: {
-      filename: 'js/[name]-[hash].bundle.js',
-      chunkFilename: 'js/[id]-[hash].bundle.js',
+      filename: isProd ? 'js/[name]-[hash].bundle.js' : 'js/[name].bundle.js',
+      chunkFilename: isProd ? 'js/[id]-[chunkhash].bundle.js' : 'js/[id].bundle.js',
       path: distPath,
       publicPath: './'
     },
@@ -201,6 +210,7 @@ module.exports = function (env) {
         {
           test: /\.css$/,
           use: ExtractTextPlugin.extract({
+            fallback: 'style-loader',
             use: [{
               loader: 'css-loader',
               options: {
@@ -261,7 +271,10 @@ module.exports = function (env) {
     },
     resolve: {
       extensions: ['.js', '.jsx'],
-      modules: [path.resolve(__dirname, 'node_modules'), sourcePath]
+      modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
+      alias: {
+        md_components: path.resolve(__dirname, 'src/components')
+      }
     },
 
     plugins,
