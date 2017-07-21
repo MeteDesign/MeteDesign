@@ -25,6 +25,7 @@ pre[class*="language-"] {
   -ms-hyphens: none;
   hyphens: none;
   color: #5e6687;
+  background-color: #ECEFF1
 }
 
 pre[class*="language-"]::-moz-selection, pre[class*="language-"] ::-moz-selection,

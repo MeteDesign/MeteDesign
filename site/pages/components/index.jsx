@@ -17,7 +17,6 @@ export default class Components extends React.Component {
 
     this.state = {}
   }
-
   componentWillMount () {
     window.addEventListener('hashchange', () => {
       window.scrollTo(0, 0)
@@ -25,7 +24,6 @@ export default class Components extends React.Component {
       this.setPage()
     }, false)
   }
-
   componentDidMount () {
     this.setPage(() => {
       if (!this.state.locale) {
@@ -47,7 +45,6 @@ export default class Components extends React.Component {
 
   getLocale (key) {
     const map = locales[this.state.locale] || {}
-
     return key.split('.').reduce((a, b) => {
       const parent = map[a]
 
@@ -179,21 +176,6 @@ export default class Components extends React.Component {
             </ScrollToTop>
           </div>
         </div>
-        {/* <footer className='footer'>
-          <div className='container'>
-            <div className='footer-main'>
-              <p className='footer-main-title'>Element-React</p>
-              <a href='https://github.com/eleme/element-react/issues' target='_blank' rel='noopener noreferrer' className='footer-main-link'>{this.getLocale('misc.feedback')}</a>
-              <a href='https://github.com/eleme/element-react/blob/master/CONTRIBUTING.md' target='_blank' rel='noopener noreferrer' className='footer-main-link'>{this.getLocale('misc.contribution')}</a>
-              <a href={`http://element.eleme.io/#/${this.state.locale}/component/${this.state.page}`} target='_blank' rel='noopener noreferrer' className='footer-main-link'>Element</a>
-            </div>
-            <div className='footer-social'>
-              <a href='//github.com/eleme/element-react' target='_blank' rel='noopener noreferrer'>
-                <img src={require('/assets/images/github.png')} />
-              </a>
-            </div>
-          </div>
-        </footer> */}
       </div>
     )
   }

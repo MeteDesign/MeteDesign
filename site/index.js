@@ -1,7 +1,7 @@
 import React from 'react'
 import { render } from 'react-dom'
-import Promise from 'es6-promise'
-Promise.polyfill()
+// import Promise from 'es6-promise'
+// Promise.polyfill()
 // import Button from '../src/components/button'
 // import MapContaniner from '../src/components/map'
 import {
@@ -13,9 +13,10 @@ import {
 
 import Home from 'bundle-loader?lazy&name=Home!./pages/index'
 import Components from 'bundle-loader?lazy&name=Components!./pages/components'
-// import Components from './pages/components'
 import Standard from 'bundle-loader?lazy&name=Standard!./pages/standard'
 import Resource from 'bundle-loader?lazy&name=Resource!./pages/resource'
+import Middleware from 'bundle-loader?lazy&name=Middleware!./pages/middleware'
+import Toollib from 'bundle-loader?lazy&name=Toollib!./pages/toollib'
 import Bundle from '../src/components/lazyload'
 import Loading from '../src/components/loading'
 
@@ -34,7 +35,11 @@ class App extends React.Component {
   constructor (props) {
     super(props)
   }
-
+  componentWillMount () {
+    window.addEventListener('hashchange', () => {
+      window.scrollTo(0, 0)
+    }, false)
+  }
   render () {
     return (
       <Router>
@@ -61,12 +66,20 @@ class App extends React.Component {
               <li className='header-li'>
                 <NavLink to='/resource' activeClassName='header-active'>资源</NavLink>
               </li>
+              <li className='header-li'>
+                <NavLink to='/middleware' activeClassName='header-active'>中间件</NavLink>
+              </li>
+              <li className='header-li'>
+                <NavLink to='/toollib' activeClassName='header-active'>工具库</NavLink>
+              </li>
             </ul >
           </div >
           <Route exact path='/' component={loadComponent(Home)} />
           <Route path='/components' component={loadComponent(Components)} />
           <Route path='/standard' component={loadComponent(Standard)} />
           <Route path='/resource' component={loadComponent(Resource)} />
+          <Route path='/middleware' component={loadComponent(Middleware)} />
+          <Route path='/toollib' component={loadComponent(Toollib)} />
           <div className='foot'>
             <div className='foot--nav'>
               <div className='foot--help foot--logo'>
