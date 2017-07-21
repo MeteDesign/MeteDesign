@@ -76,12 +76,12 @@ module.exports = function (env) {
     // }),
     new webpack.optimize.CommonsChunkPlugin({
       // vendor chunk
-      name: 'vendor' // the name of bundle
+      names: ['manifest', 'vendor'] // the name of bundle
     }),
-    new webpack.optimize.CommonsChunkPlugin({
-      name: 'manifest',
-      minChunks: Infinity
-    }),
+    // new webpack.optimize.CommonsChunkPlugin({
+    //   name: 'manifest',
+    //   minChunks: Infinity
+    // }),
 
     // setting production environment will strip out
     // some of the development code from the app
@@ -139,7 +139,7 @@ module.exports = function (env) {
      */
     plugins.push(
       // minify remove some of the dead code
-      new UglifyJSPlugin({
+      new webpack.optimize.UglifyJsPlugin({
         compress: {
           warnings: false,
           screw_ie8: true,
@@ -153,7 +153,8 @@ module.exports = function (env) {
           join_vars: true
         },
         mangle: false
-      })
+      }),
+      new webpack.optimize.ModuleConcatenationPlugin()
     )
   } else {
     /**
@@ -273,7 +274,8 @@ module.exports = function (env) {
       extensions: ['.js', '.jsx'],
       modules: [path.resolve(__dirname, 'node_modules'), sourcePath],
       alias: {
-        md_components: path.resolve(__dirname, 'src/components')
+        md_components: path.resolve(__dirname, 'src/components'),
+        md_midware: path.resolve(__dirname, 'src/md-midware')
       }
     },
 
