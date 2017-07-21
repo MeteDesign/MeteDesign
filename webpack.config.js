@@ -143,7 +143,8 @@ module.exports = function (env) {
           evaluate: true,
           if_return: true,
           join_vars: true
-        }
+        },
+        mangle: false
       })
     )
   } else {
